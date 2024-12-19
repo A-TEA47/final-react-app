@@ -1,0 +1,101 @@
+/* Global Styles */
+body {
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
+
+.container {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 25px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+input.form-control {
+  border-radius: 25px;
+  padding: 15px 20px;
+  border: 1px solid #dcdcdc;
+  transition: all 0.3s ease;
+}
+
+input.form-control:focus {
+  border-color: #2c3e50;
+  box-shadow: 0 0 10px rgba(44, 62, 80, 0.2);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 25px;
+  font-size: 1rem;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #4caf50, #2c3e50);
+  border: none;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2c3e50, #4caf50);
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline-primary {
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+.btn-outline-primary:hover {
+  background: #4caf50;
+  color: white;
+}
+
+/* Lists */
+.list-group-item {
+  border: none;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item:hover {
+  background-color: #f1f1f1;
+}
+
+.badge {
+  border-radius: 15px;
+  padding: 5px 15px;
+  font-size: 0.85rem;
+}
