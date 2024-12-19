@@ -1,45 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { getPosts } from '../services/api';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]); // Default to an empty array
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // State for errors
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const data = await getPosts();
-        setPosts(data); // Ensure data is set correctly
-      } catch (err) {
-        console.error('Error fetching posts:', err);
-        setError('Failed to load posts.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPosts();
-  }, []);
-
-  if (loading) {
-    return <div className="spinner-border" role="status"></div>;
-  }
-
-  if (error) {
-    return <div className="alert alert-danger">{error}</div>;
-  }
+  const navigate = useNavigate();
 
   return (
-    <div className="container mt-5">
-      <h2>Posts</h2>
-      <ul className="list-group">
-        {posts.map((post) => (
-          <li key={post.id} className="list-group-item">
-            <h5>{post.title}</h5>
-            <p>{post.body}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="container mt-5 text-center">
+      <h2 className="mb-4">Welcome to the App</h2>
+      <div className="row">
+        <div className="col-md-4 mb-4">
+          <button
+            className="btn btn-primary btn-lg w-100"
+            onClick={() => navigate('/posts')}
+          >
+            View Posts
+          </button>
+        </div>
+        <div className="col-md-4 mb-4">
+          <button
+            className="btn btn-success btn-lg w-100"
+            onClick={() => navigate('/todos')}
+          >
+            View Todos
+          </button>
+        </div>
+        <div className="col-md-4 mb-4">
+          <button
+            className="btn btn-info btn-lg w-100"
+            onClick={() => navigate('/users')}
+          >
+            View Users
+          </button>
+        </div>
+        <div className="col-md-4 mb-4">
+          <button
+            className="btn btn-warning btn-lg w-100"
+            onClick={() => navigate('/albums')}
+          >
+            View Albums
+          </button>
+        </div>
+        <div className="col-md-4 mb-4">
+          <button
+            className="btn btn-danger btn-lg w-100"
+            onClick={() => navigate('/photos')}
+          >
+            View Photos
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

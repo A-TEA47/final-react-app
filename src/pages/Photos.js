@@ -1,36 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { getPhotos } from '../services/api';
+import React, { useEffect, useState } from 'react';
+import { getPhotos } from '../services/api'; // Ensure the correct API function is imported
+
 
 const Photos = () => {
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [photos, setPhotos] = useState([]); // State to hold photos
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const data = await getPhotos();
-        setPhotos(data.slice(0, 50)); // Display only 50 photos for better performance
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching photos:', error);
-        setLoading(false);
+        const data = await getPhotos(); // Fetch photo data from the API
+        setPhotos(data); // Update photos state
+      } catch (err) {
+        console.error('Error fetching photos:', err);
+        setError('Failed to load photos.');
+      } finally {
+        setLoading(false); // Stop loading spinner
       }
     };
+
     fetchPhotos();
   }, []);
 
   if (loading) {
-    return <div className="spinner-border" role="status"></div>;
+    return (
+      <div className="text-center my-5">
+        <div className="spinner-border text-primary" role="status"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="alert alert-danger text-center">{error}</div>;
   }
 
   return (
     <div className="container mt-5">
-      <h2>Photos</h2>
+      <h2 className="text-center text-primary mb-4">Photos</h2>
       <div className="row">
-        {photos.map((photo) => (
-          <div key={photo.id} className="col-md-3 mb-4">
-            <div className="card">
-              <img src={photo.thumbnailUrl} className="card-img-top" alt={photo.title} />
+        {photos.slice(0, 20).map((photo) => ( // Limit to 20 photos for display
+          <div className="col-md-3 mb-4" key={photo.id}>
+            <div className="card shadow-sm">
+              <img
+                src={photo.thumbnailUrl} // Use the thumbnail URL for the photo
+                alt={photo.title}
+                className="card-img-top"
+              />
               <div className="card-body">
                 <p className="card-text">{photo.title}</p>
               </div>

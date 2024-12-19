@@ -1,90 +1,125 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://jsonplaceholder.typicode.com';
+// Base URLs for the APIs
+const API_URL_REQRES = 'https://reqres.in/api';
+const API_URL_JSONPLACEHOLDER = 'https://jsonplaceholder.typicode.com';
 
-// Generic GET request
-const getData = async (endpoint) => {
+// Fetch all users
+export const getUsers = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}${endpoint}`);
-    return response.data;
+    const response = await axios.get(`${API_URL_REQRES}/users?per_page=12`);
+    return response.data.data; // Returns the array of users
   } catch (error) {
-    console.error(`Error fetching data from ${endpoint}:`, error);
+    console.error('Error fetching users:', error);
     throw error;
   }
-};
-
-// Fetch posts
-export const getPosts = async () => {
-  return getData('/posts');
-};
-
-// Fetch comments
-export const getComments = async () => {
-  return getData('/comments');
-};
-
-// Fetch todos
-export const getTodos = async () => {
-  return getData('/todos');
-};
-
-// Fetch photos
-export const getPhotos = async () => {
-  return getData('/photos');
-};
-
-// Fetch albums
-export const getAlbums = async () => {
-  return getData('/albums');
-};
-
-// Fetch users
-export const getUsers = async () => {
-  return getData('/users');
 };
 
 // Fetch a single user by ID
 export const getUserById = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/users/${id}`);
-    return response.data;
+    const response = await axios.get(`${API_URL_REQRES}/users/${id}`);
+    return response.data.data; // Returns the user object
   } catch (error) {
     console.error(`Error fetching user with ID ${id}:`, error);
     throw error;
   }
 };
 
-// Login user (Mock API call for Reqres API)
-export const login = async (credentials) => {
+// Fetch all posts
+export const getPosts = async () => {
   try {
-    const response = await axios.post('https://reqres.in/api/login', credentials);
-    return response.data;
+    const response = await axios.get(`${API_URL_JSONPLACEHOLDER}/posts`);
+    return response.data; // Returns the array of posts
   } catch (error) {
-    console.error('Error during login:', error.response?.data || error.message);
+    console.error('Error fetching posts:', error);
     throw error;
   }
 };
 
-// Register user (Mock API call for Reqres API)
-export const register = async (userDetails) => {
+// Fetch all comments
+export const getComments = async () => {
   try {
-    const response = await axios.post('https://reqres.in/api/register', userDetails);
-    return response.data;
+    const response = await axios.get(`${API_URL_JSONPLACEHOLDER}/comments`);
+    return response.data; // Returns the array of comments
   } catch (error) {
-    console.error('Error during registration:', error.response?.data || error.message);
+    console.error('Error fetching comments:', error);
     throw error;
   }
 };
 
+// Fetch all todos
+export const getTodos = async () => {
+  try {
+    const response = await axios.get(`${API_URL_JSONPLACEHOLDER}/todos`);
+    return response.data; // Returns the array of todos
+  } catch (error) {
+    console.error('Error fetching todos:', error);
+    throw error;
+  }
+};
+
+// Fetch all albums
+export const getAlbums = async () => {
+  try {
+    const response = await axios.get(`${API_URL_JSONPLACEHOLDER}/albums`);
+    return response.data; // Returns the array of albums
+  } catch (error) {
+    console.error('Error fetching albums:', error);
+    throw error;
+  }
+};
+
+// Fetch all photos
+export const getPhotos = async () => {
+  try {
+    const response = await axios.get(`${API_URL_JSONPLACEHOLDER}/photos`);
+    return response.data; // Returns the array of photos
+  } catch (error) {
+    console.error('Error fetching photos:', error);
+    throw error;
+  }
+};
+
+// Utility function for login
+export const login = async (email, password) => {
+  try {
+    const response = await axios.post(`${API_URL_REQRES}/login`, {
+      email,
+      password,
+    });
+    return response.data; // Returns token or success response
+  } catch (error) {
+    console.error('Error during login:', error);
+    throw error;
+  }
+};
+
+// Utility function for register
+export const register = async (email, password) => {
+  try {
+    const response = await axios.post(`${API_URL_REQRES}/register`, {
+      email,
+      password,
+    });
+    return response.data; // Returns token or success response
+  } catch (error) {
+    console.error('Error during registration:', error);
+    throw error;
+  }
+};
+
+// Export all functions as a default object
 const api = {
+  getUsers,
+  getUserById,
   getPosts,
   getComments,
   getTodos,
-  getPhotos,
   getAlbums,
-  getUsers,
-  getUserById,
+  getPhotos,
   login,
   register,
 };
+
 export default api;

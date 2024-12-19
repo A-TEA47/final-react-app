@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getUsers } from '../services/api';
+import { getUsers } from '../services/api'; // Ensure the API fetch is correct
+
 
 const UserProfile = () => {
-  const { id } = useParams(); // Extract the user ID from the URL
+  const { userId } = useParams(); // Get userId from URL
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,50 +12,65 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await getUsers(); // Fetch all users
-        const foundUser = response.data.find((u) => u.id === parseInt(id, 10)); // Find user by ID
-        if (foundUser) {
-          setUser(foundUser);
-        } else {
-          setError('User not found.');
-        }
+        const response = await getUsers(); // Assuming getUsers fetches all users
+        const foundUser = response.find((user) => user.id === parseInt(userId));
+        if (!foundUser) throw new Error('User not found');
+        setUser(foundUser);
       } catch (err) {
-        console.error('Error fetching user:', err);
+        console.error('Error fetching user details:', err);
         setError('Failed to load user details.');
       } finally {
         setLoading(false);
       }
     };
+
     fetchUser();
-  }, [id]);
+  }, [userId]);
 
-  if (loading) {
-    return <div className="spinner-border" role="status"></div>;
-  }
+  if (loading)
+    return (
+      <div className="text-center my-5">
+        <div className="spinner-border text-primary" role="status"></div>
+      </div>
+    );
 
-  if (error) {
-    return <div className="alert alert-danger">{error}</div>;
-  }
+  if (error)
+    return <div className="alert alert-danger text-center my-5">{error}</div>;
 
   return (
     <div className="container mt-5">
-      <h2>User Profile</h2>
-      {user && (
-        <div className="card">
+      <div className="card shadow-lg p-4">
+        <div className="text-center">
           <img
-            src={user.avatar} // Assuming the API provides an avatar URL
-            alt={`${user.first_name} ${user.last_name}`}
-            className="card-img-top"
+            src={user.avatar}
+            alt={user.first_name}
+            className="rounded-circle mb-3"
+            width="100"
+            height="100"
           />
-          <div className="card-body">
-            <h5 className="card-title">
-              {user.first_name} {user.last_name}
-            </h5>
-            <p className="card-text">Email: {user.email}</p>
-            <p className="card-text">ID: {user.id}</p>
-          </div>
+          <h2>
+            {user.first_name} {user.last_name}
+          </h2>
+          <p className="text-secondary">{user.email}</p>
         </div>
-      )}
+        <div className="mt-4">
+          <h5 className="text-primary">Details:</h5>
+          <ul className="list-group">
+            <li className="list-group-item">
+              <strong>ID:</strong> {user.id}
+            </li>
+            <li className="list-group-item">
+              <strong>First Name:</strong> {user.first_name}
+            </li>
+            <li className="list-group-item">
+              <strong>Last Name:</strong> {user.last_name}
+            </li>
+            <li className="list-group-item">
+              <strong>Email:</strong> {user.email}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
